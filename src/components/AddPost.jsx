@@ -9,19 +9,21 @@ class AddPost extends React.Component {
   bodyInputRef = createRef();
 
   addPost = () => {
-    if (this.bodyInputRef.current.value.length > 0 && this.titleInputRef.current.value.length > 0) {
-      this.props.addPost(this.titleInputRef.current.value);
-      this.bodyInputRef.current.value = '';
-      this.titleInputRef.current.value = '';
+    const text = this.bodyInputRef.current;
+    const title = this.titleInputRef.current;
+    if (text.value.length > 0 && title.value.length > 0) {
+      this.props.addPost({ title: title.value, text: text.value });
+      text.value = '';
+      title.value = '';
     }
   };
 
   render() {
     return (
-      <div className="asdf">
-        <input type="text" placeholder="Title" ref={this.titleInputRef} />
-        <input type="text" placeholder="Text" ref={this.bodyInputRef} />
-        <button type="button" onClick={this.addPost}>Add post</button>
+      <div className="posts__add flex-ccc">
+        <input className="input posts__input" type="text" placeholder="Title" ref={this.titleInputRef} />
+        <input className="input posts__input" type="text" placeholder="Text" ref={this.bodyInputRef} />
+        <button className="btn posts__btn" type="button" onClick={this.addPost}>Add post</button>
       </div>
     );
   }

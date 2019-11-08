@@ -1,6 +1,7 @@
 let id = 999;
 const INITIAL_STATE = {
   isLoading: false,
+  userPosts: false,
   posts: [],
 };
 
@@ -9,15 +10,20 @@ const POSTS_REQUEST = 'POSTS_REQUEST';
 const POSTS_REQUEST_SUCCESS = 'POSTS_REQUEST_SUCCESS';
 const ADD_POST = 'ADD_POST';
 const DELETE_POST = 'DELETE_POST';
+const TOGGLE_USER_POSTS = 'TOGGLE_USER_POSTS';
 
 export const deletePost = (ids) => ({
   type: DELETE_POST,
   payload: ids,
 });
 
-export const addPost = (title) => ({
+export const addPost = (info) => ({
   type: ADD_POST,
-  payload: title,
+  payload: info,
+});
+
+export const toggleUserPosts = () => ({
+  type: TOGGLE_USER_POSTS,
 });
 
 const postsRequest = () => ({
@@ -43,6 +49,11 @@ export const posts = (store = INITIAL_STATE, action) => {
         ...store,
         isLoading: true,
       };
+    case TOGGLE_USER_POSTS:
+      return {
+        ...store,
+        userPosts: !store.userPosts,
+      };
     case POSTS_REQUEST_SUCCESS:
       return {
         posts: action.payload,
@@ -54,8 +65,10 @@ export const posts = (store = INITIAL_STATE, action) => {
         ...store,
         posts: [
           {
-            title: action.payload,
+            title: action.payload.title,
+            body: action.payload.text,
             id,
+            userId: 'browser user',
           },
           ...store.posts,
         ],
